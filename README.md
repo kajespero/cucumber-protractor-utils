@@ -6,9 +6,12 @@ Work in progress
 
 Frameworks / librairies used
 ===
-[Cucumber] 
+[Cucumber]  
+
 [Protractor] 
+
 [Chai]
+
 And of course [Grunt] 
 
 
