@@ -14,7 +14,15 @@ function Support(browser){
 
 	this.get = function(uri){
 		return browser.get(uri);
-	}
+	};
+
+	this.checkUrl = function(uri, next){
+		browser.getCurrentUrl().then(function(currentUrl){
+			console.log('current url ' + currentUrl);
+			expect(currentUrl.endsWith(uri)).to.equal(true);
+			if(next) next();
+		});
+	};
 
 	this.assertEquals = function(expected, value, next){
 		expect(expected, 'Expected value is ' + expected + ' but you have ' + value).to.equal(value);
@@ -51,8 +59,7 @@ function Support(browser){
 		element.all(by.css(selector)).then(function(items) {
 			_self.assertTimes(items.length, elementAt, selector);
 			items[elementAt].getText().then(function(value){
-				_self.assertEquals(expectedValue, value);
-				if(next) next();
+				_self.assertEquals(expectedValue, value, next);
 			});
 			
 		});
@@ -67,11 +74,13 @@ function Support(browser){
 			_self.assertTimes(items.length, elementAt, cssSelector);
 			var elementClickable = protractorExpectedCondition.elementToBeClickable(items[elementAt]);
 			browser.wait(elementClickable, 5000);
-			items[elementAt].click();
-			browser.waitForAngular().then(function(){
-				if(next) next();
+			items[elementAt].click().then(function(){
+				browser.waitForAngular().then(function(){
+					if(next) next();
+				});
 			});
 		});
 	};
 }
+
 module.exports = Support;

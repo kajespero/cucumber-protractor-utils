@@ -25,27 +25,33 @@ var steps = function() {
 		});
 	});
 
-	//step to check the number of an element found by its class it is found
+	//step to check if the number of an element found by its class is at least the number expected
 	this.Then(/^I should see "(.[^"]*)" at least "([^"]*)" times$/, function (cssSelector, times, callback) {
 		element.all(by.css(cssSelector)).count().then(function(nb){
 			support.assertAtLeast(times, nb, cssSelector, callback);
 		});
 	});
 
+	//step to check if the number of an element found by its class is at most the number expected
 	this.Then(/^I should see "(.[^"]*)" at most "([^"]*)" times$/, function (cssSelector, times, callback) {
   	element.all(by.css(cssSelector)).count().then(function(nb){
 			support.assertAtMost(times, nb, cssSelector, callback);
 		});
 	});
 
+	// step click on a link represented by its class
 	this.When(/^I click on "(.[^"]*)" link$/, function (linkSelector, callback) {
   	support.click(linkSelector, callback);
 	});
 
+	// step check if an element found by its class contains the expected text
 	this.Then(/^I should see "([^"]*)" contains "([^"]*)"$/, function (cssSelector, expectedValue, callback) {
   	support.assertContains(cssSelector, expectedValue, callback);
 	});
 
+	this.Then(/^I exepected to be on "([^"]*)"$/, function (uri, callback) {
+  	support.checkUrl(uri, callback);
+	});
 }
 
 module.exports = steps;

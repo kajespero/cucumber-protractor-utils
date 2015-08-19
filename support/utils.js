@@ -1,5 +1,10 @@
 'use strict';
 
+// add some usefull string function
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
+
 function Utils(){
 
 	/*
