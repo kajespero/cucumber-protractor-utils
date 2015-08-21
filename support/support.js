@@ -3,7 +3,8 @@
 var chai = require('chai'),
 		chaiAsPromised = require('chai-as-promised'),
 		protractorExpectedCondition = protractor.ExpectedConditions,
-		Utils = require('./utils.js').Utils;
+		Utils = require('./utils.js').Utils,
+		Message = require('./message.js').Message;
 chai.use(chaiAsPromised);
 
 var expect = chai.expect;
@@ -18,37 +19,33 @@ function Support(browser){
 
 	this.checkUrl = function(uri, next){
 		browser.getCurrentUrl().then(function(currentUrl){
-			console.log('current url ' + currentUrl);
 			expect(currentUrl.endsWith(uri)).to.equal(true);
 			if(next) next();
 		});
 	};
 
 	this.assertEquals = function(expected, value, next){
-		expect(expected, 'Expected value is ' + expected + ' but you have ' + value).to.equal(value);
+		expect(expected, Message.get('assert.equal').format(expected, value)).to.equal(value);
 		if(next) next();
 	};
 
 	this.assertIsPresent = function(expected, selector, next){
-		expect(expected, 'Element id '+ selector).to.equal(true);
+		expect(expected, Message.get('assert.present').format(selector)).to.equal(true);
 		if(next) next();
 	};
 
 	this.assertTimes = function(expectedTimes, times, cssSelector, next){
-		expect(expectedTimes > times, expectedTimes + ' elements'+ (cssSelector ?  ' with css class "' + cssSelector : '') 
-				+ '" are found but you expected to click on element found at ' + times).to.equal(true);
+		expect(expectedTimes > times, Message.get('assert.times').format(expectedTimes, cssSelector, times)).to.equal(true);
 		if(next) next();
 	};
 
 	this.assertAtLeast = function(expectedTimes, times, selector, next){
-		expect(expectedTimes <= times, times + ' elements'+ (selector ?  ' with css class "' + selector : '') 
-			+ '" are found but you expected to find at least ' + expectedTimes).to.equal(true);
+		expect(expectedTimes <= times, Message.get('assert.at-least').format(times, selector, expectedTimes)).to.equal(true);
 		if(next) next();
 	};
 
 	this.assertAtMost = function(expectedTimes, times, selector, next){
-		expect(expectedTimes >= times, times + ' elements'+ (selector ?  ' with css class "' + selector : '') 
-			+ '" are found but you expected to find at most ' + expectedTimes).to.equal(true);
+		expect(expectedTimes >= times, Message.get('assert.at-most').format(times, selector, expectedTimes)).to.equal(true);
 		if(next) next();
 	};
 

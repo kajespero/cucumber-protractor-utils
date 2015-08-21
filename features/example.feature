@@ -1,4 +1,5 @@
 Feature: Example
+  
   Scenario: Acceuil 
     Given get "/#/accueil"
     Then I should see "Accueil | Ma Gazette" as the page title

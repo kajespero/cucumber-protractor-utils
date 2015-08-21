@@ -5,6 +5,13 @@ String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/\{(\d+)\}/g, function() {
+        return args[arguments[1]];
+    });
+};
+
 function Utils(){
 
 	/*
