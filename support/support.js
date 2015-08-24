@@ -19,7 +19,7 @@ function Support(browser){
 
 	this.checkUrl = function(uri, next){
 		browser.getCurrentUrl().then(function(currentUrl){
-			expect(currentUrl.endsWith(uri)).to.equal(true);
+			expect(currentUrl.endsWith(uri), Message.get('assert.equal').format(uri, currentUrl)).to.equal(true);
 			if(next) next();
 		});
 	};
@@ -35,7 +35,7 @@ function Support(browser){
 	};
 
 	this.assertTimes = function(expectedTimes, times, cssSelector, next){
-		expect(expectedTimes > times, Message.get('assert.times').format(expectedTimes, cssSelector, times)).to.equal(true);
+		expect(expectedTimes == times, Message.get('assert.times').format(expectedTimes, cssSelector, times)).to.equal(true);
 		if(next) next();
 	};
 
@@ -54,7 +54,7 @@ function Support(browser){
 				selector = matches && matches.length > 2 ? matches[1] : cssSelector,
 				elementAt = matches && matches.length > 2 ? matches[2] : 0;
 		element.all(by.css(selector)).then(function(items) {
-			_self.assertTimes(items.length, elementAt, selector);
+			_self.assertAtLeast(elementAt, items.length, selector);
 			items[elementAt].getText().then(function(value){
 				_self.assertEquals(expectedValue, value, next);
 			});
@@ -68,7 +68,7 @@ function Support(browser){
 				elementAt = matches && matches.length > 2 ? matches[2] : 0;
 
 		element.all(by.css(cssSelector)).then(function(items) {
-			_self.assertTimes(items.length, elementAt, cssSelector);
+			_self.assertAtLeast(elementAt, items.length, cssSelector);
 			var elementClickable = protractorExpectedCondition.elementToBeClickable(items[elementAt]);
 			browser.wait(elementClickable, 5000);
 			items[elementAt].click().then(function(){
