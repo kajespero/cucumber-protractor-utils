@@ -9,7 +9,7 @@ Feature: Example
     When I click on ".info-link[2]" link
 
   Scenario: Article
-    Then I exepected to be on "/#/post/14"
+    Then I expected to be on "/#/post/14"
   	Then I should see "Articles | Accusantium aperiam atque deleniti Ma Gazette" as the page title
     Then I should see ".info-title.ng-binding[1]" equal to "Accusantium aperiam atque deleniti"
 

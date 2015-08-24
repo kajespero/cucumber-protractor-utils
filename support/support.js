@@ -87,6 +87,9 @@ function Support(browser){
 				browser.waitForAngular().then(function(){
 					if(next) next();
 				});
+				// sometimes does not need to 
+				// wait for angular
+				if(next) next();
 			});
 		});
 	};
@@ -97,6 +100,7 @@ function Support(browser){
 		for(var fieldSelector in obj){
 			var field = element(by.css('[name="'+fieldSelector+'"]'));
 			if(!field) element(by.css('[ng-model="'+fieldSelector+'"]'));
+			field.clear();
 			field.sendKeys(obj[fieldSelector]);
 		};
 	};

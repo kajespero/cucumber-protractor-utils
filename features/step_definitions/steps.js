@@ -50,7 +50,7 @@ var steps = function() {
 	});
 
 	// step to check page 
-	this.Then(/^I exepected to be on "([^"]*)"$/, function (uri, callback) {
+	this.Then(/^I expected to be on "([^"]*)"$/, function (uri, callback) {
   	support.checkUrl(uri, callback);
 	});
 
