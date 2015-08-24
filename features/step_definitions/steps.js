@@ -19,7 +19,7 @@ var steps = function() {
 	});
 
 	// step to check the visibility of an element by its id
-	this.Then(/^"(#[^"]*)" is visible$/, function (elmt, callback) {
+	this.Then(/^"([^"]*)" is visible$/, function (elmt, callback) {
 		element(by.css(elmt)).isPresent().then(function(isPresent){
 			support.assertIsPresent(isPresent, elmt,callback);
 		});
@@ -49,8 +49,28 @@ var steps = function() {
   	support.assertContains(cssSelector, expectedValue, callback);
 	});
 
+	// step to check page 
 	this.Then(/^I exepected to be on "([^"]*)"$/, function (uri, callback) {
   	support.checkUrl(uri, callback);
+	});
+
+	// step to fill a form with a "json" object 
+	this.Then(/^I fill "([^"]*)" with "([^"]*)"$/, function (formSelector, jsonValue, callback) {
+		var jsonObj = JSON.parse(jsonValue.replace(/'/g, '"'));
+		if(jsonObj){
+			support.fillForm(formSelector, jsonObj);
+		}
+  	callback();
+	});
+
+	// step to validate form
+	this.Then(/^Submit the form with "([^"]*)"$/, function (selector, callback) {
+  	support.click(selector, callback);
+	});
+
+	// step to check the equality of a value
+	this.Then(/^I should see "([^"]*)" equal to "([^"]*)"$/, function (selector, expectedValue, callback) {
+  	support.assertValueEqual(selector, expectedValue, callback);
 	});
 }
 

@@ -49,7 +49,7 @@ function Support(browser){
 		if(next) next();
 	};
 
-	this.assertContains = function(cssSelector, expectedValue, next){
+	this.assertValueEqual = function(cssSelector, expectedValue, next){
 		var matches = Utils.matches(/(^.+[a-zA-Z]*)\[(\d)\]/, cssSelector),
 				selector = matches && matches.length > 2 ? matches[1] : cssSelector,
 				elementAt = matches && matches.length > 2 ? matches[2] : 0;
@@ -58,7 +58,19 @@ function Support(browser){
 			items[elementAt].getText().then(function(value){
 				_self.assertEquals(expectedValue, value, next);
 			});
-			
+		});
+	};
+
+	this.assertContains = function(cssSelector, expectedValue, next){
+		var matches = Utils.matches(/(^.+[a-zA-Z]*)\[(\d)\]/, cssSelector),
+				selector = matches && matches.length > 2 ? matches[1] : cssSelector,
+				elementAt = matches && matches.length > 2 ? matches[2] : 0;
+		element.all(by.css(selector)).then(function(items) {
+			_self.assertAtLeast(elementAt, items.length, selector);
+			items[elementAt].getText().then(function(value){
+				expect(value.indexOf(expectedValue) > 0, Message.get('assert.contains').format(value, expectedValue)).to.equal(true);
+				if(next) next();
+			});
 		});
 	};
 
@@ -77,6 +89,16 @@ function Support(browser){
 				});
 			});
 		});
+	};
+
+	this.fillForm = function(selecteor, obj){
+		// first try to find elements by their name then by ng-model
+		// todo first naive implementation think about it
+		for(var fieldSelector in obj){
+			var field = element(by.css('[name="'+fieldSelector+'"]'));
+			if(!field) element(by.css('[ng-model="'+fieldSelector+'"]'));
+			field.sendKeys(obj[fieldSelector]);
+		};
 	};
 }
 
