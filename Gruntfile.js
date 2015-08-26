@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(grunt){
-  var pathUrl = grunt.option('pathUrl') || 'http://localhost:9000/'
+  var url = grunt.option('url') || 'http://localhost:9000/'
 
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-protractor-webdriver');
@@ -27,16 +27,16 @@ module.exports = function(grunt){
         keepAlive: true, // If false, the grunt process stops when the test fails.
         noColor: false, // If true, protractor will not use colors in its output.
         args: {
-          baseUrl: pathUrl
+          baseUrl: url,
         }
       },
       all:{}
     },
     cucumberjs: {
       options: {
-        format: 'html',
-        output: 'report/cucumber_report.html',
-        theme: 'simple'
+        format: 'pretty',
+        output: 'my_report.html',
+        theme: 'bootstrap'
       },
       my_features: ['features/*.feature']
     },
