@@ -16,6 +16,7 @@ exports.config = {
     global.optionsEnv = {
       log:{
         save:true,
+        // path to save result file
         path:'../../cucumber-test-results.json',
       }
     }
