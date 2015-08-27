@@ -10,7 +10,7 @@ module.exports = function(grunt){
 	grunt.initConfig({
     shell:{
       selenium:{
-        command: './node_modules/protractor/bin/webdriver-manager start',
+        command: 'node ./node_modules/protractor/bin/webdriver-manager start',
         options:{
           stdout: true
         }
